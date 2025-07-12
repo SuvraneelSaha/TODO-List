@@ -2,7 +2,7 @@
 
 import express from "express";
 
-import { create, getAllUsers, getUserByID, update } from "../controller/userController.js";
+import { create, deleteUser, getAllUsers, getUserByID, update } from "../controller/userController.js";
 
 // now we create an express router instance ;
 
@@ -17,5 +17,8 @@ route.get("/user/:id",getUserByID);
 route.put("/update/user/:id",update);
 
 // put - for updating 
+
+route.delete("/delete/user/:id",deleteUser);
+
 
 export default route;
