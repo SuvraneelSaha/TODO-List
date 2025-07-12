@@ -56,3 +56,28 @@ export const getUserByID = async (req, res) => {
     // 500 -- internal server error
   }
 };
+
+export const update = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const userExist = await User.findById(id);
+
+    if (!userExist) {
+      return res.status(404).json({ message: "User not found !!" });
+      // 404 - not found status code
+    }
+
+    const updatedData = await User.findByIdAndUpdate(id,req.body,
+      {
+        new : true
+      }
+    );
+
+    res.status(200).json(updatedData) ; 
+
+
+  } catch (error) {
+    res.status(500).json({ errorMessage: error.message });
+    // 500 -- internal server error
+  }
+};
