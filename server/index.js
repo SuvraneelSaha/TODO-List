@@ -4,7 +4,6 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import route from "./routes/userRoute.js";
 
-
 const app = express();
 app.use(bodyParser.json());
 dotenv.config();
@@ -28,3 +27,7 @@ mongoose
 // express app connected now with the mongodb DB ;
 
 // NOw we will be creating the folder structure ;
+
+// after importing -- we have to mount the middleware
+
+app.use("/api", route);
