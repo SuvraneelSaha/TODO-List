@@ -1,6 +1,16 @@
 /* this is where we will write the css for the App  */
 
-body{
+body {
   background-color: aliceblue;
-  
 }
+
+/*
+body {
+  background-image: url('/BackgroundImage.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  margin: 0;
+}
+*/
