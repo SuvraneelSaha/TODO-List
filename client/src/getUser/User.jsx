@@ -1,9 +1,32 @@
 // we will be creating a functional component
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./user.css";
-
+import axios from "axios";
 const User = () => {
+  // writing the code to fetch the data from the database ;
+  // or we will be connecting the app with the backend
+
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:9000/api/users");
+        setUsers(response.data);
+      } catch (error) {
+        console.log("Error while fetching data", error);
+      }
+    };
+
+    fetchData();
+    // initiate the data fetching processing
+  }, []);
+  // here empty array means that the useEffect will run only once
+  // users - current state of the component
+  // setUsers - allows you to update the state stored in the users variables
+  // useState() basically used to initialize the state variables as an empty array
+  // useEffect is used to manage the sideeffect in the functional component
+
   return (
     <div className="userTable">
       <button type="button" class="btn btn-primary">
@@ -22,20 +45,24 @@ const User = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>John</td>
-            <td>john@gmail.com</td>
-            <td>Canada</td>
-            <td className="actionButtons">
-              <button type="button" class="btn btn-warning">
-                <i class="fa-solid fa-wrench"></i>
-              </button>
-              <button type="button" class="btn btn-danger">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </td>
-          </tr>
+          {users.map((user, index) => {
+            return (
+              <tr>
+                <td>{index+1}</td>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.address}</td>
+                <td className="actionButtons">
+                  <button type="button" class="btn btn-warning">
+                    <i class="fa-solid fa-wrench"></i>
+                  </button>
+                  <button type="button" class="btn btn-danger">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
@@ -46,5 +73,5 @@ export default User;
 // this above const User -- it is a functional component
 // we need to add this User.jsx into the App.js
 
-// now we want the dynamic data from the db 
-// axios - js library for making http requests 
+// now we want the dynamic data from the db
+// axios - js library for making http requests
