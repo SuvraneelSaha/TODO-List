@@ -74,7 +74,7 @@ export const update = async (req, res) => {
       }
     );
 
-    res.status(200).json(updatedData) ; 
+    res.status(200).json({message:"User Updated successfully in the DB via the client"}) ; 
 
 
   } catch (error) {

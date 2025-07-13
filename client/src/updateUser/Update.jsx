@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Update.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate ,useParams } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -10,10 +10,14 @@ const UpdateUser = () => {
     email: "",
     address: "",
   };
-
+// we need to set the intial value of the form - using the url ; 
+// we will be using useParams from the react router dom
   const [user, setUser] = useState(users);
 
   const navigate = useNavigate();
+
+  const {id} = useParams();
+
 
   const inputHandler = (e) => {
     const { name, value } = e.target;
@@ -22,12 +26,24 @@ const UpdateUser = () => {
     setUser({ ...user, [name]: value });
   };
 
+  useEffect(() => {
+    axios.get(`http://localhost:9000/api/user/${id}`)
+    .then((response) => {
+      setUser(response.data)
+    }).catch((error)=>{
+      console.log(error);
+    })
+  },[id]);
+
+  // why id - that the effect  will take place when the id variable changes  
+
+
   const submitForm = async (e) => {
     e.preventDefault();
     await axios
-      .post("http://localhost:9000/api/user", user)
+      .put(`http://localhost:9000/api/update/user/${id}`, user)
       .then((response) => {
-        toast.success(response.data.message, { position: "bottom-right" });
+        toast.success(response.data.message, { position: "top-right" });
         navigate("/");
       })
       .catch((error) => {
@@ -49,13 +65,14 @@ const UpdateUser = () => {
         <i class="fa-solid fa-house"></i> Back
       </Link>
 
-      <h3>Add New User</h3>
+      <h3>Update User</h3>
       <form className="addUserForm" onSubmit={submitForm}>
         <div className="inputGroup">
           <label htmlFor="name">Name : </label>
           <input
             type="text"
             id="name"
+            value={user.name}
             onChange={inputHandler}
             name="name"
             autoComplete="off"
@@ -67,6 +84,7 @@ const UpdateUser = () => {
           <input
             type="email"
             id="email"
+            value={user.email}
             onChange={inputHandler}
             name="email"
             autoComplete="off"
@@ -78,6 +96,7 @@ const UpdateUser = () => {
           <input
             type="text"
             id="address"
+            value={user.address}
             onChange={inputHandler}
             name="address"
             autoComplete="off"
