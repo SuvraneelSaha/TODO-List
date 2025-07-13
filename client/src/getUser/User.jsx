@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import "./user.css";
 import axios from "axios";
+import { Link } from "react-router-dom";
 const User = () => {
   // writing the code to fetch the data from the database ;
   // or we will be connecting the app with the backend
@@ -29,10 +30,11 @@ const User = () => {
 
   return (
     <div className="userTable">
-      <button type="button" class="btn btn-primary">
+      <Link to="/add" type="button" class="btn btn-primary">
         Add User
         <i class="fa-solid fa-person-circle-plus addUserIcon"></i>
-      </button>
+      </Link>
+      {/* link for linking it to a route address */}
       <table className="table table-bordered">
         <thead>
           <tr>
@@ -48,7 +50,7 @@ const User = () => {
           {users.map((user, index) => {
             return (
               <tr>
-                <td>{index+1}</td>
+                <td>{index + 1}</td>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>{user.address}</td>
