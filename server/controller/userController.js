@@ -16,7 +16,8 @@ export const create = async (req, res) => {
     }
 
     const savedData = await newUser.save();
-    res.status(200).json(savedData);
+    // res.status(200).json(savedData);
+      res.status(200).json({message:"User Created Successfully in the Backend DB"});
 
     // 200 -- OK status code
   } catch (error) {
