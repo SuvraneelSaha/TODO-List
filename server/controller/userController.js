@@ -6,7 +6,9 @@ import User from "../model/userModel.js";
 
 export const create = async (req, res) => {
   try {
+    console.log(req.body);
     const newUser = new User(req.body);
+
     const { email } = newUser;
 
     const userExist = await User.findOne({ email });
@@ -17,7 +19,9 @@ export const create = async (req, res) => {
 
     const savedData = await newUser.save();
     // res.status(200).json(savedData);
-      res.status(200).json({message:"User Created Successfully in the Backend DB"});
+    res
+      .status(200)
+      .json({ message: "User Created Successfully in the Backend DB" });
 
     // 200 -- OK status code
   } catch (error) {
@@ -68,22 +72,20 @@ export const update = async (req, res) => {
       // 404 - not found status code
     }
 
-    const updatedData = await User.findByIdAndUpdate(id,req.body,
-      {
-        new : true
-      }
-    );
+    const updatedData = await User.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
 
-    res.status(200).json({message:"User Updated successfully in the DB via the client"}) ; 
-
-
+    res
+      .status(200)
+      .json({ message: "User Updated successfully in the DB via the client" });
   } catch (error) {
     res.status(500).json({ errorMessage: error.message });
     // 500 -- internal server error
   }
 };
 
-export const deleteUser = async(req,res) => {
+export const deleteUser = async (req, res) => {
   try {
     const id = req.params.id;
     const userExist = await User.findById(id);
@@ -95,10 +97,9 @@ export const deleteUser = async(req,res) => {
 
     await User.findByIdAndDelete(id);
 
-    res.status(200).json({message:"User deleted Successfully !!"}) ; 
-    
+    res.status(200).json({ message: "User deleted Successfully !!" });
   } catch (error) {
-     res.status(500).json({ errorMessage: error.message });
+    res.status(500).json({ errorMessage: error.message });
     // 500 -- internal server error
   }
-}
+};

@@ -15,24 +15,24 @@ const AddUser = () => {
 
   const navigate = useNavigate();
 
-  const inputHandler = (e) => {
-    const { name, value } = e.target;
-    console.log(name, value);
-
-    setUser({ ...user, [name]: value });
+  const inputHandler = (fieldname, value) => {
+    // const { name, value } = e.target;
+    // console.log(name, value);
+    const newUser = { ...user, [fieldname]: value };
+    setUser(newUser);
+    // name - field name ;
+    // value
   };
 
   const submitForm = async (e) => {
     e.preventDefault();
-    await axios
-      .post("http://localhost:9000/api/user", user)
-      .then((response) => {
-        toast.success(response.data.message, { position: "bottom-right" });
-        navigate("/");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    try {
+      const response = await axios.post("http://localhost:9000/api/user", user);
+      toast.success(response.data.message, { position: "bottom-right" });
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // here the spread operator ... is used to copy the current value of user state and
@@ -56,7 +56,9 @@ const AddUser = () => {
           <input
             type="text"
             id="name"
-            onChange={inputHandler}
+            onChange={(event) => {
+              inputHandler("name", event.target.value);
+            }}
             name="name"
             autoComplete="off"
             placeholder="Enter your Name"
@@ -67,7 +69,9 @@ const AddUser = () => {
           <input
             type="email"
             id="email"
-            onChange={inputHandler}
+            onChange={(event) => {
+              inputHandler("email", event.target.value);
+            }}
             name="email"
             autoComplete="off"
             placeholder="Enter your Email"
@@ -78,7 +82,9 @@ const AddUser = () => {
           <input
             type="text"
             id="address"
-            onChange={inputHandler}
+            onChange={(event) => {
+              inputHandler("address", event.target.value);
+            }}
             name="address"
             autoComplete="off"
             placeholder="Enter your Address"
